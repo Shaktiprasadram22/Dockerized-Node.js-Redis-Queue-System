@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  redis:
+    image: "redis:alpine"
+    container_name: redis
+
+  producer:
+    build: .
+    command: ["node", "producer.js"]
+    ports:
+      - "3000:3000"
+    depends_on:
+      - redis
+
+  consumer:
+    build: .
+    command: ["node", "consumer.js"]
+    depends_on:
+      - redis
